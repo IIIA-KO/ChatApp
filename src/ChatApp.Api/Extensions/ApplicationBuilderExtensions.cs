@@ -20,6 +20,5 @@ namespace ChatApp.Api.Extensions
         {
             app.UseMiddleware<ExceptionHandlingMiddleware>();
         }
-
     }
 }
