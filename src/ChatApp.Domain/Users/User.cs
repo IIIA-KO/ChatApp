@@ -5,6 +5,7 @@ namespace ChatApp.Domain.Users
 {
     public sealed class User : Entity<UserId>
     {
+        private readonly List<Chat> _createdChats = [];
         private readonly List<Chat> _chats = [];
 
         private User() { }
@@ -17,7 +18,17 @@ namespace ChatApp.Domain.Users
 
         public UserName UserName { get; private set; }
 
+        public IReadOnlyCollection<Chat> CreatedChats => this._createdChats.AsReadOnly();
+
         public IReadOnlyCollection<Chat> Chats => this._chats.AsReadOnly();
+
+        public void AddCreatedChat(Chat chat)
+        {
+            if (!this._createdChats.Contains(chat))
+            {
+                this._createdChats.Add(chat);
+            }
+        }
 
         public void AddChat(Chat chat)
         {
