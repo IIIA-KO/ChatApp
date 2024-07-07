@@ -11,6 +11,8 @@
             CancellationToken cancellationToken = default
         );
 
+        Task<bool> UserExists(UserName userName, CancellationToken cancellationToken = default);
+
         void Add(User user);
     }
 }
