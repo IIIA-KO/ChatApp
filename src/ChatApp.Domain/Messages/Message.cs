@@ -40,8 +40,7 @@ namespace ChatApp.Domain.Messages
         public void SetUser(User user)
         {
             this.User =
-                user
-                ?? throw new ArgumentNullException(nameof(user), "User cannot be null");
+                user ?? throw new ArgumentNullException(nameof(user), "User cannot be null");
 
             this.UserId = user.Id;
         }
@@ -49,8 +48,7 @@ namespace ChatApp.Domain.Messages
         public void SetChat(Chat chat)
         {
             this.Chat =
-                chat
-                ?? throw new ArgumentNullException(nameof(chat), "Chat cannot be null");
+                chat ?? throw new ArgumentNullException(nameof(chat), "Chat cannot be null");
 
             this.ChatId = chat.Id;
         }

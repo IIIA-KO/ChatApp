@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -16,16 +16,25 @@ namespace ChatApp.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    user_name = table.Column<string>(
+                        type: "character varying(50)",
+                        maxLength: 50,
+                        nullable: false
+                    )
                 },
-                constraints: table => table.PrimaryKey("pk_users", x => x.id));
+                constraints: table => table.PrimaryKey("pk_users", x => x.id)
+            );
 
             migrationBuilder.CreateTable(
                 name: "chats",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    chat_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    chat_name = table.Column<string>(
+                        type: "character varying(100)",
+                        maxLength: 100,
+                        nullable: false
+                    ),
                     creator_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -36,8 +45,10 @@ namespace ChatApp.Infrastructure.Migrations
                         column: x => x.creator_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "chat_participants",
@@ -48,28 +59,41 @@ namespace ChatApp.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_chat_participants", x => new { x.chats_id, x.participants_id });
+                    table.PrimaryKey(
+                        "pk_chat_participants",
+                        x => new { x.chats_id, x.participants_id }
+                    );
                     table.ForeignKey(
                         name: "fk_chat_participants_chats_chats_id",
                         column: x => x.chats_id,
                         principalTable: "chats",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade
+                    );
                     table.ForeignKey(
                         name: "fk_chat_participants_users_participants_id",
                         column: x => x.participants_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "messages",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    content = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    sent_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    content = table.Column<string>(
+                        type: "character varying(500)",
+                        maxLength: 500,
+                        nullable: false
+                    ),
+                    sent_at = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     chat_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -81,56 +105,60 @@ namespace ChatApp.Infrastructure.Migrations
                         column: x => x.chat_id,
                         principalTable: "chats",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade
+                    );
                     table.ForeignKey(
                         name: "fk_messages_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "ix_chat_participants_participants_id",
                 table: "chat_participants",
-                column: "participants_id");
+                column: "participants_id"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "ix_chats_creator_id",
                 table: "chats",
-                column: "creator_id");
+                column: "creator_id"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "ix_messages_chat_id",
                 table: "messages",
-                column: "chat_id");
+                column: "chat_id"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "ix_messages_user_id",
                 table: "messages",
-                column: "user_id");
+                column: "user_id"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "ix_users_user_name",
                 table: "users",
                 column: "user_name",
-                unique: true);
+                unique: true
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "chat_participants");
+            migrationBuilder.DropTable(name: "chat_participants");
 
-            migrationBuilder.DropTable(
-                name: "messages");
+            migrationBuilder.DropTable(name: "messages");
 
-            migrationBuilder.DropTable(
-                name: "chats");
+            migrationBuilder.DropTable(name: "chats");
 
-            migrationBuilder.DropTable(
-                name: "users");
+            migrationBuilder.DropTable(name: "users");
         }
     }
 }

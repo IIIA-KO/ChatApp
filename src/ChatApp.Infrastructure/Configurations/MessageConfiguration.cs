@@ -22,22 +22,16 @@ namespace ChatApp.Infrastructure.Configurations
                 .HasMaxLength(500)
                 .HasConversion(content => content.Value, value => new Content(value));
 
-            builder
-                .Property(message => message.SentAt)
-                .IsRequired();
+            builder.Property(message => message.SentAt).IsRequired();
 
-            builder
-                .Property(message => message.UserId)
-                .IsRequired();
+            builder.Property(message => message.UserId).IsRequired();
 
             builder
                 .HasOne(message => message.User)
                 .WithMany()
                 .HasForeignKey(message => message.UserId);
 
-            builder
-                .Property(message => message.ChatId)
-                .IsRequired();
+            builder.Property(message => message.ChatId).IsRequired();
 
             builder
                 .HasOne(message => message.Chat)

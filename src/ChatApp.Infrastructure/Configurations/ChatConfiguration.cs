@@ -22,9 +22,7 @@ namespace ChatApp.Infrastructure.Configurations
                 .HasMaxLength(100)
                 .HasConversion(chatName => chatName.Value, value => new ChatName(value));
 
-            builder
-                .Property(chat => chat.CreatorId)
-                .IsRequired();
+            builder.Property(chat => chat.CreatorId).IsRequired();
 
             builder
                 .HasOne(chat => chat.Creator)
