@@ -35,6 +35,14 @@ namespace ChatApp.Domain.Chats
             }
         }
 
+        public void AddMessage(Message message)
+        {
+            if (!this._messages.Contains(message))
+            {
+                this._messages.Add(message);
+            }
+        }
+
         public static Result<Chat> Create(ChatName chatName)
         {
             if (chatName is null || string.IsNullOrEmpty(chatName.Value))
@@ -52,19 +60,6 @@ namespace ChatApp.Domain.Chats
                 ?? throw new ArgumentNullException(nameof(creator), "Creator cannot be null");
 
             this.CreatorId = creator.Id;
-        }
-
-        public void AddMessage(Message message)
-        {
-            if (message is null)
-            {
-                throw new ArgumentNullException(nameof(message), "Message cannot be null");
-            }
-
-            if (!this._messages.Contains(message))
-            {
-                this._messages.Add(message);
-            }
         }
     }
 }

@@ -8,9 +8,8 @@ namespace ChatApp.Application.IntegrationTests.Users
 {
     public class RegisterUserTests : BaseIntegrationTest
     {
-        public RegisterUserTests(IntegrationTestWebAppFactory factory) : base(factory)
-        {
-        }
+        public RegisterUserTests(IntegrationTestWebAppFactory factory)
+            : base(factory) { }
 
         [Fact]
         public async Task RegisterUser_Should_ReturnSuccess_When_CredentialValid()

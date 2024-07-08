@@ -23,6 +23,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="ChatApp.Application.UnitTests"/>
+		<InternalsVisibleTo Include="ChatApp.Application.UnitTests" />
 	</ItemGroup>
 </Project>

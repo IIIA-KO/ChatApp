@@ -20,14 +20,17 @@ namespace ChatApp.Application.UnitTests.Users
             this._userRepositoryMock = Substitute.For<IUserRepository>();
             this._unitOfWorkMock = Substitute.For<IUnitOfWork>();
 
-            this._handler = new RegisterUserCommandHandler(this._userRepositoryMock, this._unitOfWorkMock);
+            this._handler = new RegisterUserCommandHandler(
+                this._userRepositoryMock,
+                this._unitOfWorkMock
+            );
         }
 
         [Fact]
         public async Task Handle_Should_ReturnFailure_WhenUserExists()
         {
             // Arrange
-            this._userRepositoryMock.UserExists(Command.UserName).Returns(true);
+            this._userRepositoryMock.UserExistsByUsernameAsync(Command.UserName).Returns(true);
 
             // Act
             Result<UserId> result = await this._handler.Handle(Command, default);
@@ -41,7 +44,7 @@ namespace ChatApp.Application.UnitTests.Users
         public async Task Handle_Should_ReturnFailure_WhenCreationFails()
         {
             // Arrange
-            this._userRepositoryMock.UserExists(Command.UserName).Returns(false);
+            this._userRepositoryMock.UserExistsByUsernameAsync(Command.UserName).Returns(false);
 
             // Act
             var invalidCommand = new RegisterUserCommand(new UserName(string.Empty));
@@ -57,7 +60,7 @@ namespace ChatApp.Application.UnitTests.Users
         public async Task Handle_Should_SuccessfullyRegisterUser()
         {
             // Arrange
-            this._userRepositoryMock.UserExists(Command.UserName).Returns(false);
+            this._userRepositoryMock.UserExistsByUsernameAsync(Command.UserName).Returns(false);
 
             // Act
             Result<UserId> result = await this._handler.Handle(Command, default);
@@ -66,5 +69,4 @@ namespace ChatApp.Application.UnitTests.Users
             result.IsSuccess.Should().BeTrue();
         }
     }
-
 }

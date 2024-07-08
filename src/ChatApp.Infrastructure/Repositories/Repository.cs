@@ -1,4 +1,5 @@
-﻿using ChatApp.Domain.Abstraction;
+﻿using System.Linq.Expressions;
+using ChatApp.Domain.Abstraction;
 using ChatApp.Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,18 @@ namespace ChatApp.Infrastructure.Repositories
         public virtual void Add(TEntity entity)
         {
             this.dbContext.Add(entity);
+        }
+
+        public async Task<bool> ExistsAsync(
+            Expression<Func<TEntity, bool>> expression,
+            CancellationToken cancellationToken = default
+        )
+        {
+            return await this
+                .dbContext.Set<TEntity>()
+                .AsNoTracking()
+                .Where(expression)
+                .AnyAsync(cancellationToken);
         }
 
         protected IQueryable<TEntity> ApplySpecification(

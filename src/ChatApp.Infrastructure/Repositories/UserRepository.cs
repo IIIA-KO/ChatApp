@@ -27,15 +27,12 @@ namespace ChatApp.Infrastructure.Repositories
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<bool> UserExists(
+        public async Task<bool> UserExistsByUsernameAsync(
             UserName userName,
             CancellationToken cancellationToken = default
         )
         {
-            return await this
-                .dbContext.Set<User>()
-                .AsNoTracking()
-                .AnyAsync(user => user.UserName == userName, cancellationToken);
+            return await this.ExistsAsync(user => user.UserName == userName, cancellationToken);
         }
     }
 }

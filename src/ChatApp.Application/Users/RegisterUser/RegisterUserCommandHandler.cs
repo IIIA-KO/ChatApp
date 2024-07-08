@@ -20,7 +20,7 @@ namespace ChatApp.Application.Users.RegisterUser
             CancellationToken cancellationToken
         )
         {
-            bool userExists = await this._userRepository.UserExists(
+            bool userExists = await this._userRepository.UserExistsByUsernameAsync(
                 request.UserName,
                 cancellationToken
             );

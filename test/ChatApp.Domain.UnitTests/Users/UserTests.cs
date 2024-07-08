@@ -3,7 +3,6 @@ using ChatApp.Domain.UnitTests.Chats;
 using ChatApp.Domain.UnitTests.Infrastructure;
 using ChatApp.Domain.Users;
 using FluentAssertions;
-using System.Security.Cryptography;
 
 namespace ChatApp.Domain.UnitTests.Users
 {
@@ -47,9 +46,8 @@ namespace ChatApp.Domain.UnitTests.Users
             user.AddCreatedChat(chat);
 
             // Assert
-            user.CreatedChats.Should().NotBeNullOrEmpty();
+            user.CreatedChats.Should().NotBeNullOrEmpty().And.HaveCount(1);
             user.CreatedChats.Should().Contain(chat);
-            user.CreatedChats.Count.Should().Be(1);
         }
 
         [Fact]
@@ -64,9 +62,8 @@ namespace ChatApp.Domain.UnitTests.Users
             user.AddCreatedChat(chat);
 
             // Assert
-            user.CreatedChats.Should().NotBeNullOrEmpty();
+            user.CreatedChats.Should().NotBeNullOrEmpty().And.HaveCount(1);
             user.CreatedChats.Should().Contain(chat);
-            user.CreatedChats.Count.Should().Be(1);
         }
 
         [Fact]
@@ -80,9 +77,8 @@ namespace ChatApp.Domain.UnitTests.Users
             user.AddChat(chat);
 
             // Assert
-            user.Chats.Should().NotBeNullOrEmpty();
+            user.Chats.Should().NotBeNullOrEmpty().And.HaveCount(1);
             user.Chats.Should().Contain(chat);
-            user.Chats.Count.Should().Be(1);
         }
 
         [Fact]
@@ -97,9 +93,8 @@ namespace ChatApp.Domain.UnitTests.Users
             user.AddChat(chat);
 
             // Assert
-            user.Chats.Should().NotBeNullOrEmpty();
+            user.Chats.Should().NotBeNullOrEmpty().And.HaveCount(1);
             user.Chats.Should().Contain(chat);
-            user.Chats.Count.Should().Be(1);
         }
 
         [Fact]
