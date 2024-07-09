@@ -4,10 +4,8 @@
     {
         Task<User?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default);
 
-        Task<User?> GetByWithChatsIdAsync(UserId id, CancellationToken cancellationToken = default);
-
-        Task<User?> GetByIdWithCreatedChatsAsync(
-            UserId id,
+        Task<bool> UserExistsByIdAsync(
+            UserId userId,
             CancellationToken cancellationToken = default
         );
 

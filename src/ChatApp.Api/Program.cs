@@ -1,4 +1,5 @@
 using ChatApp.Api.Extensions;
+using ChatApp.Api.SignalR;
 using ChatApp.Application;
 using ChatApp.Infrastructure;
 
@@ -11,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddSignalR();
 
 WebApplication app = builder.Build();
 
@@ -29,6 +32,8 @@ app.UseCustomExceptionHandler();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chathub");
 
 await app.RunAsync();
 

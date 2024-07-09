@@ -83,6 +83,25 @@ namespace ChatApp.Infrastructure.Migrations
                     b.ToTable("messages", (string)null);
                 });
 
+            modelBuilder.Entity("ChatApp.Domain.UserChat", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("chat_id");
+
+                    b.HasKey("UserId", "ChatId")
+                        .HasName("pk_users_chats");
+
+                    b.HasIndex("ChatId")
+                        .HasDatabaseName("ix_users_chats_chat_id");
+
+                    b.ToTable("users_chats", (string)null);
+                });
+
             modelBuilder.Entity("ChatApp.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -140,31 +159,12 @@ namespace ChatApp.Infrastructure.Migrations
                     b.ToTable("outbox_messages", (string)null);
                 });
 
-            modelBuilder.Entity("ChatUser", b =>
-                {
-                    b.Property<Guid>("ChatsId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("chats_id");
-
-                    b.Property<Guid>("ParticipantsId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("participants_id");
-
-                    b.HasKey("ChatsId", "ParticipantsId")
-                        .HasName("pk_chat_participants");
-
-                    b.HasIndex("ParticipantsId")
-                        .HasDatabaseName("ix_chat_participants_participants_id");
-
-                    b.ToTable("chat_participants", (string)null);
-                });
-
             modelBuilder.Entity("ChatApp.Domain.Chats.Chat", b =>
                 {
                     b.HasOne("ChatApp.Domain.Users.User", "Creator")
-                        .WithMany("CreatedChats")
+                        .WithMany()
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_chats_users_creator_id");
 
@@ -192,31 +192,30 @@ namespace ChatApp.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ChatUser", b =>
+            modelBuilder.Entity("ChatApp.Domain.UserChat", b =>
                 {
-                    b.HasOne("ChatApp.Domain.Chats.Chat", null)
+                    b.HasOne("ChatApp.Domain.Chats.Chat", "Chat")
                         .WithMany()
-                        .HasForeignKey("ChatsId")
+                        .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_chat_participants_chats_chats_id");
+                        .HasConstraintName("fk_users_chats_chats_chat_id");
 
-                    b.HasOne("ChatApp.Domain.Users.User", null)
+                    b.HasOne("ChatApp.Domain.Users.User", "User")
                         .WithMany()
-                        .HasForeignKey("ParticipantsId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_chat_participants_users_participants_id");
+                        .HasConstraintName("fk_users_chats_users_user_id");
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ChatApp.Domain.Chats.Chat", b =>
                 {
                     b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("ChatApp.Domain.Users.User", b =>
-                {
-                    b.Navigation("CreatedChats");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,6 @@
 ﻿using ChatApp.Domain.Chats;
 
-namespace ChatApp.Application.UnitTests.Chats
+namespace ChatApp.Application.IntegrationTests.Chats
 {
     internal static class ChatData
     {

@@ -9,5 +9,14 @@ namespace ChatApp.Domain.Chats
 
         public static readonly Error InvalidName =
             new("Chat.InvalidName", "The provided chat name were invalid");
+
+        public static readonly Error NotAuthorized =
+            new("Chat.NotAuthorized", "You are not authorized for this action");
+
+        public static readonly Error AlreadyConnected =
+            new("Chat.AlreadyConnected", "You are already connected to this chat");
+
+        public static readonly Error NotConnected =
+            new("Chat.NotConnected", "You are not connected to this chat");
     }
 }

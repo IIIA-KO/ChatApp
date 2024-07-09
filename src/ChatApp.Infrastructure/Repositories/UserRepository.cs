@@ -1,6 +1,4 @@
 ﻿using ChatApp.Domain.Users;
-using ChatApp.Infrastructure.Specifications.Users;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.Infrastructure.Repositories
 {
@@ -9,22 +7,12 @@ namespace ChatApp.Infrastructure.Repositories
         public UserRepository(ApplicationDbContext dbContext)
             : base(dbContext) { }
 
-        public async Task<User?> GetByWithChatsIdAsync(
-            UserId id,
+        public async Task<bool> UserExistsByIdAsync(
+            UserId userId,
             CancellationToken cancellationToken = default
         )
         {
-            return await this.ApplySpecification(new UserByIdWithChatsSpecification(id))
-                .FirstAsync(cancellationToken);
-        }
-
-        public async Task<User?> GetByIdWithCreatedChatsAsync(
-            UserId id,
-            CancellationToken cancellationToken = default
-        )
-        {
-            return await this.ApplySpecification(new UserByIdWithCreatedChatsSpecification(id))
-                .FirstOrDefaultAsync(cancellationToken);
+            return await this.ExistsAsync(user => user.Id == userId, cancellationToken);
         }
 
         public async Task<bool> UserExistsByUsernameAsync(

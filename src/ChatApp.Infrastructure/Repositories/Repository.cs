@@ -31,6 +31,11 @@ namespace ChatApp.Infrastructure.Repositories
             this.dbContext.Add(entity);
         }
 
+        public virtual void Remove(TEntity entity)
+        {
+            this.dbContext.Remove(entity);
+        }
+
         public async Task<bool> ExistsAsync(
             Expression<Func<TEntity, bool>> expression,
             CancellationToken cancellationToken = default

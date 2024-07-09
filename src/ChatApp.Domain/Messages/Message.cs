@@ -6,51 +6,43 @@ namespace ChatApp.Domain.Messages
 {
     public sealed class Message : Entity<MessageId>
     {
-        private Message(MessageId id, Content content, DateTime sentAt)
+        private Message(
+            MessageId id,
+            Content content,
+            ChatId chatId,
+            UserId userId,
+            DateTime sentAt
+        )
             : base(id)
         {
             this.Content = content;
+            this.ChatId = chatId;
+            this.UserId = userId;
             this.SentAt = sentAt;
         }
 
         private Message() { }
 
-        public Content Content { get; private set; }
+        public Content Content { get; set; }
 
-        public DateTime SentAt { get; private set; }
+        public DateTime SentAt { get; init; }
 
-        public UserId UserId { get; private set; }
+        public UserId UserId { get; init; }
 
-        public User User { get; private set; }
+        public User User { get; init; }
 
-        public ChatId ChatId { get; private set; }
+        public ChatId ChatId { get; init; }
 
-        public Chat Chat { get; private set; }
+        public Chat Chat { get; init; }
 
-        public static Result<Message> Create(Content content)
+        public static Result<Message> Create(Content content, ChatId chatId, UserId userId)
         {
             if (content is null || string.IsNullOrEmpty(content.Value))
             {
                 return Result.Failure<Message>(MessageErrors.InvalidContent);
             }
 
-            return new Message(MessageId.New(), content, DateTime.UtcNow);
-        }
-
-        public void SetUser(User user)
-        {
-            this.User =
-                user ?? throw new ArgumentNullException(nameof(user), "User cannot be null");
-
-            this.UserId = user.Id;
-        }
-
-        public void SetChat(Chat chat)
-        {
-            this.Chat =
-                chat ?? throw new ArgumentNullException(nameof(chat), "Chat cannot be null");
-
-            this.ChatId = chat.Id;
+            return new Message(MessageId.New(), content, chatId, userId, DateTime.UtcNow);
         }
     }
 }

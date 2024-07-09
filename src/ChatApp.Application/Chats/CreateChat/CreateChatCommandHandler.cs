@@ -27,24 +27,22 @@ namespace ChatApp.Application.Chats.CreateChat
             CancellationToken cancellationToken
         )
         {
-            User? user = await this._userRepository.GetByIdAsync(
+            bool userExists = await this._userRepository.UserExistsByIdAsync(
                 request.CreatorId,
                 cancellationToken
             );
-            if (user is null)
+            if (!userExists)
             {
                 return Result.Failure<ChatId>(UserErrors.NotFound);
             }
 
-            Result<Chat> result = Chat.Create(request.ChatName);
+            Result<Chat> result = Chat.Create(request.ChatName, request.CreatorId);
             if (result.IsFailure)
             {
                 return Result.Failure<ChatId>(result.Error);
             }
 
             Chat chat = result.Value;
-
-            chat.SetCreator(user);
 
             this._chatRepository.Add(chat);
 

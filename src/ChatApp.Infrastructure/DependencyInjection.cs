@@ -3,6 +3,7 @@ using ChatApp.Application.Abstraction.Data;
 using ChatApp.Domain.Abstraction;
 using ChatApp.Domain.Chats;
 using ChatApp.Domain.Messages;
+using ChatApp.Domain.UserChats;
 using ChatApp.Domain.Users;
 using ChatApp.Infrastructure.Clock;
 using ChatApp.Infrastructure.Data;
@@ -48,6 +49,7 @@ namespace ChatApp.Infrastructure
 
             services.AddScoped<IChatRepository, ChatRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserChatRepository, UserChatRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(

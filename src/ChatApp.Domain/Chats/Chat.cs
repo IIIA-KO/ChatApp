@@ -6,13 +6,13 @@ namespace ChatApp.Domain.Chats
 {
     public sealed class Chat : Entity<ChatId>
     {
-        private readonly List<User> _participants = [];
         private readonly List<Message> _messages = [];
 
-        private Chat(ChatId chatId, ChatName chatName)
+        private Chat(ChatId chatId, ChatName chatName, UserId creatorId)
             : base(chatId)
         {
             this.ChatName = chatName;
+            this.CreatorId = creatorId;
         }
 
         private Chat() { }
@@ -21,19 +21,9 @@ namespace ChatApp.Domain.Chats
 
         public UserId CreatorId { get; private set; }
 
-        public User Creator { get; private set; }
-
-        public IReadOnlyCollection<User> Participants => this._participants.AsReadOnly();
+        public User Creator { get; }
 
         public IReadOnlyCollection<Message> Messages => this._messages.AsReadOnly();
-
-        public void AddParticipant(User user)
-        {
-            if (!this._participants.Contains(user))
-            {
-                this._participants.Add(user);
-            }
-        }
 
         public void AddMessage(Message message)
         {
@@ -43,23 +33,19 @@ namespace ChatApp.Domain.Chats
             }
         }
 
-        public static Result<Chat> Create(ChatName chatName)
+        public void RemoveMessage(Message message)
+        {
+            this._messages.Remove(message);
+        }
+
+        public static Result<Chat> Create(ChatName chatName, UserId creatorId)
         {
             if (chatName is null || string.IsNullOrEmpty(chatName.Value))
             {
                 return Result.Failure<Chat>(ChatErrors.InvalidName);
             }
 
-            return new Chat(ChatId.New(), chatName);
-        }
-
-        public void SetCreator(User creator)
-        {
-            this.Creator =
-                creator
-                ?? throw new ArgumentNullException(nameof(creator), "Creator cannot be null");
-
-            this.CreatorId = creator.Id;
+            return new Chat(ChatId.New(), chatName, creatorId);
         }
     }
 }

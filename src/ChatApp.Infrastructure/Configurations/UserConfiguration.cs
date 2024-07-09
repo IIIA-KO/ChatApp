@@ -22,17 +22,6 @@ namespace ChatApp.Infrastructure.Configurations
                 .HasMaxLength(50)
                 .HasConversion(username => username.Value, value => new UserName(value));
 
-            builder
-                .HasMany(user => user.CreatedChats)
-                .WithOne(chat => chat.Creator)
-                .HasForeignKey(chat => chat.CreatorId)
-                .IsRequired();
-
-            builder
-                .HasMany(user => user.Chats)
-                .WithMany(chat => chat.Participants)
-                .UsingEntity(j => j.ToTable("chat_participants"));
-
             builder.HasIndex(user => user.UserName).IsUnique();
         }
     }

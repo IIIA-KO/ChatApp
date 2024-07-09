@@ -26,14 +26,5 @@ namespace ChatApp.Infrastructure.Repositories
             return await this.ApplySpecification(new ChatByIdWithMessagesSpecification(id))
                 .FirstOrDefaultAsync(cancellationToken);
         }
-
-        public async Task<Chat?> GetByIdWithParticipantsAsync(
-            ChatId id,
-            CancellationToken cancellationToken = default
-        )
-        {
-            return await this.ApplySpecification(new ChatByIdWithParticipantsSpecification(id))
-                .FirstOrDefaultAsync(cancellationToken);
-        }
     }
 }

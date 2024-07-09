@@ -1,6 +1,5 @@
 ﻿using ChatApp.Application.Chats.CreateChat;
 using ChatApp.Application.IntegrationTests.Infrastructure;
-using ChatApp.Application.UnitTests.Chats;
 using ChatApp.Domain.Abstraction;
 using ChatApp.Domain.Users;
 using FluentAssertions;

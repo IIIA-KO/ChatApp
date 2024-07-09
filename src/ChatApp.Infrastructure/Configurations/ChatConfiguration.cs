@@ -26,13 +26,9 @@ namespace ChatApp.Infrastructure.Configurations
 
             builder
                 .HasOne(chat => chat.Creator)
-                .WithMany(user => user.CreatedChats)
-                .HasForeignKey(chat => chat.CreatorId);
-
-            builder
-                .HasMany(chat => chat.Participants)
-                .WithMany(user => user.Chats)
-                .UsingEntity(j => j.ToTable("chat_participants"));
+                .WithMany()
+                .HasForeignKey(chat => chat.CreatorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasMany(chat => chat.Messages)

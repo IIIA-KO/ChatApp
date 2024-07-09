@@ -15,5 +15,7 @@
         );
 
         void Add(Message message);
+
+        void Remove(Message message);
     }
 }

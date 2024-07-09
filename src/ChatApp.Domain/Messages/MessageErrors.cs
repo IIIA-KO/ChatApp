@@ -9,5 +9,11 @@ namespace ChatApp.Domain.Messages
 
         public static readonly Error InvalidContent =
             new("Message.InvalidContent", "The provided content were invalid");
+
+        public static readonly Error NotAuthorized =
+            new(
+                "Message.NotAuthorized",
+                "You are not authorized to perform this action with this message"
+            );
     }
 }

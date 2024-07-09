@@ -9,16 +9,12 @@
             CancellationToken cancellationToken = default
         );
 
-        Task<Chat?> GetByIdWithParticipantsAsync(
-            ChatId id,
-            CancellationToken cancellationToken = default
-        );
-
         Task<Chat?> GetByIdWithCreatorAsync(
             ChatId id,
             CancellationToken cancellationToken = default
         );
 
         void Add(Chat chat);
+        void Remove(Chat chat);
     }
 }
